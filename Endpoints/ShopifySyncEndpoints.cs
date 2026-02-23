@@ -1,17 +1,8 @@
-﻿using Integration.Shopify;
-
-namespace Endpoints;
-
-public static class ShopifySyncEndpoints
+// Endpoint for syncing products with Shopify
+[HttpGet("/shopify/sync-products")]
+public async Task<IActionResult> SyncProductsAsync(bool debug = false, CancellationToken ct = default)
 {
-    public static IEndpointRouteBuilder MapShopifySyncEndpoints(this IEndpointRouteBuilder app)
-    {
-        app.MapPost("/api/v1/sync/shopify/products", async (ShopifySyncService svc, CancellationToken ct) =>
-        {
-            var result = await svc.SyncProductsAsync(ct);
-            return Results.Ok(result);
-        });
-
-        return app;
-    }
+    // Call the ShopifySyncService with the debug parameter
+    var result = await _shopifySyncService.SyncProductsAsync(debug, ct);
+    return Ok(result);
 }
