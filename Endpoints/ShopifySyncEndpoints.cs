@@ -1,8 +1,12 @@
-// Endpoint for syncing products with Shopify
-[HttpGet("/shopify/sync-products")]
-public async Task<IActionResult> SyncProductsAsync(bool debug = false, CancellationToken ct = default)
+// Minimal API endpoint extension structure restored
+public static class ShopifySyncEndpoints
 {
-    // Call the ShopifySyncService with the debug parameter
-    var result = await _shopifySyncService.SyncProductsAsync(debug, ct);
-    return Ok(result);
+    public static void MapShopifySyncEndpoints(this IEndpointRouteBuilder routes)
+    {
+        routes.MapGet("/sync-products", async (bool debug, CancellationToken ct) =>
+        {
+            await ShopifySyncService.SyncProductsAsync(debug, ct);
+            return Results.Ok();
+        });
+    }
 }
